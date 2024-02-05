@@ -8,6 +8,9 @@ export const getAllPets = () => {
 }
 
 // READ -> Show
+export const getOnePet = (id) => {
+    return axios(`${apiUrl}/pets/${id}`)
+}
 // CREATE -> Add a pet
 // UPDATE -> Ajust a pet
 // DELETE -> Set a pet free

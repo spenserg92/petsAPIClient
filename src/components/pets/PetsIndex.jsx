@@ -1,18 +1,19 @@
-// this component is going to take functionality away from Home.js and focus only on displaying a list of pets gathered from the database via an API call
-
-// used for updating state with API data
-import { useState, useEffect } from "react"
+// this component is going to take functionality away from Home.js, and focus only on displaying a list of pets gathered from the database, via an API call
+// used for updating state with api data
+import {useState, useEffect} from 'react'
 import { getAllPets } from "../../api/pet"
 // used for rendering things
-import LoadingScreen from "../shared/LoadingScreen"
+import LoadingScreen from '../shared/LoadingScreen'
 import { Card } from 'react-bootstrap'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
+// react allows you to create something called a styling object
 const cardContainerLayout = {
     display: 'flex',
     flexFlow: 'row wrap',
     justifyContent: 'center'
 }
+
 const PetsIndex = (props) => {
     // first we want two pieces of state to use for rendering
     const [pets, setPets] = useState(null)
@@ -33,7 +34,21 @@ const PetsIndex = (props) => {
 				console.log('use Effect hook ran')
 				setPets(res.data.pets)
 			})
-			.catch(error => console.error)
+            .then(() => {
+                msgAlert({
+                    heading: 'Success!',
+                    message: 'Got all the pets!',
+                    variant: 'success'
+                })
+            })
+			.catch(error => {
+                msgAlert({
+                    heading: 'Oh no!',
+                    message: 'something went wrong!',
+                    variant: 'danger'
+                })
+                setError(true)
+            })
 	}, [])
 
 	// WE NEVER EVER DO THIS:
@@ -42,7 +57,7 @@ const PetsIndex = (props) => {
 	// 	.catch(err => console.log(err))
 	// API calls need to happen in an effect hook, or as the result of a singular action
 	// (like a form submission)
-	console.log('the pets in PetsIndex: \n', pets)
+	// console.log('the pets in PetsIndex: \n', pets)
 
     // we need to handle multiple states of our data
     // what if we have an error?
@@ -83,5 +98,6 @@ const PetsIndex = (props) => {
         </div>
     )
 }
+
 
 export default PetsIndex
