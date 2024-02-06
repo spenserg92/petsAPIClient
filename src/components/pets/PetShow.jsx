@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import messages from '../shared/AutoDismissAlert/messages'
 import EditPetModal from './EditPetModal'
 import ToyShow from '../toys/ToyShow'
+import NewToyModal from '../toys/NewToyModal'
 
 const toyCardContainerLayout = {
     display: 'flex',
@@ -27,6 +28,7 @@ const PetShow = (props) => {
     const [pet, setPet] = useState(null)
     // this determines if the editPetModal is open or not
     const [editModalShow, setEditModalShow] = useState(false)
+    const [toyModalShow, setToyModalShow] = useState(false)
 
     // this is a boolean, that we can switch between to trigger a page re-render
     const [updated, setUpdated] = useState(false)
@@ -108,6 +110,13 @@ const PetShow = (props) => {
                         </Card.Text>
                     </Card.Body>
                     <Card.Footer>
+                        <Button
+                            className='m-2'
+                            variant='warning'
+                            onClick={() => setToyModalShow(true)}
+                        >
+                            Give {pet.name} a toy!
+                        </Button>
                         {
                             pet.owner && user && pet.owner._id === user._id
                             ?
@@ -147,6 +156,13 @@ const PetShow = (props) => {
                 msgAlert={msgAlert}
                 handleClose={() => setEditModalShow(false)}
                 pet={pet}
+                triggerRefresh={() => setUpdated(prev => !prev)}
+            />
+            <NewToyModal 
+                pet={pet}
+                show={toyModalShow}
+                msgAlert={msgAlert}
+                handleClose={() => setToyModalShow(false)}
                 triggerRefresh={() => setUpdated(prev => !prev)}
             />
         </>
