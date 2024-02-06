@@ -45,7 +45,7 @@ const App = () => {
 
 	const deleteAlert = (id) => {
 		setMsgAlerts((prevState) => {
-			return (prevState.filter((msg) => msg.id !== id) )
+			return (prevState.filter((msg) => msg.id !== id))
 		})
 	}
 
@@ -54,7 +54,7 @@ const App = () => {
 		setMsgAlerts(() => {
 			return (
 				[{ heading, message, variant, id }]
-      		)
+			)
 		})
 	}
 
@@ -74,30 +74,30 @@ const App = () => {
 				<Route
 					path='/sign-out'
 					element={
-					<RequireAuth user={user}>
-						<SignOut msgAlert={msgAlert} clearUser={clearUser} user={user} />
-					</RequireAuth>
+						<RequireAuth user={user}>
+							<SignOut msgAlert={msgAlert} clearUser={clearUser} user={user} />
+						</RequireAuth>
 					}
 				/>
 				<Route
 					path='/change-password'
 					element={
-					<RequireAuth user={user}>
-						<ChangePassword msgAlert={msgAlert} user={user} />
-					</RequireAuth>}
+						<RequireAuth user={user}>
+							<ChangePassword msgAlert={msgAlert} user={user} />
+						</RequireAuth>}
 				/>
-				<Route 
+				<Route
 					path='/create-pet'
 					element={
 						<RequireAuth user={user} >
-							<PetCreate msgAlert={msgAlert} user={user}/>
+							<PetCreate msgAlert={msgAlert} user={user} />
 						</RequireAuth>
 					}
 				/>
-				<Route 
+				<Route
 					path='pets/:petId'
 					element={
-						<PetShow user={user} msgAlert={msgAlert}/>
+						<PetShow user={user} msgAlert={msgAlert} />
 					}
 				/>
 			</Routes>
