@@ -12,6 +12,7 @@ import { useState } from 'react'
 import PetForm from '../shared/PetForm'
 import { useNavigate } from 'react-router-dom'
 import { createPet } from '../../api/pet'
+import messages  from '../shared/AutoDismissAlert/messages'
 
 const PetCreate = (props) => {
     // pull out our props
@@ -32,6 +33,7 @@ const PetCreate = (props) => {
         e.persist()
 
         // if you pass an argument to the callback function of your state hook updater, that argument is a placeholder for the most recent state, this will maintain anything that you have typed before the next letter
+        // prevPet is a placeholder(parameter) for the LAST condition of our state.
         setPet(prevPet => {
             const updatedName = e.target.name
             let updatedValue = e.target.value
@@ -69,14 +71,14 @@ const PetCreate = (props) => {
             .then(() => {
                 msgAlert({
                     heading: 'Oh Yeah!',
-                    message: 'Created the pet!',
+                    message: messages.createPetSuccess,
                     variant: 'success'
                 })
             })
             .catch(err => {
                 msgAlert({
                     heading: 'Oh no!',
-                    message: 'Something went wrong',
+                    message: messages.generalError,
                     variant: 'danger'
                 })
             })
