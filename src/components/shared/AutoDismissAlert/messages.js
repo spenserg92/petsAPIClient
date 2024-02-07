@@ -12,6 +12,9 @@ const messages = {
 	updatePetSuccess: 'Updated the pet!',
 	// delete pet success
 	deletePetSuccess: 'We set the pet free!',
+	createToySuccess: 'Congrats! the pet loves their new toy!',
+	updateToySuccess: 'Updated the toy!',
+	deleteToySuccess: 'Deleted the toy!',
 	// general error
 	generalError: 'Something went wrong... Try Again'
 }
