@@ -1,22 +1,19 @@
-// this modal is rendered by the PetShow component
-// the state that controls this modal, whether it's open or not, will live in PetShow
-// the state, AND the updaterfunction associated with that state is passed here as a prop from PetShow
+// this modal is rendered by the ToyShow component
+// the state that controls the modal, whether the modal is open or not, will live in the ToyShow component(this modal's parent component)
+// the state AND the updaterFunction associated with that state, will be passed here as a prop.
 
-import React, {useState} from 'react'
+// we'll also use an instance of our reusable ToyForm
+import { useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import ToyForm from '../shared/ToyForm'
-// if we want custom messages, import those here
 import messages from '../shared/AutoDismissAlert/messages'
-// we'll need an api call to make this modal work, that'll be imported here
-import { createToy } from '../../api/toy'
+import { updateToy } from '../../api/toy'
 
-// we'll also need the same props we're passing to the ToyForm, if they come from the parent
-
-const NewToyModal = (props) => {
-    const { pet, show, handleClose, msgAlert, triggerRefresh } = props
-    // new piece of state, toy, initial value is an empty object
-    // we will build this object out, using our handleChange function
-    const [toy, setToy] = useState({})
+const EditToyModal = (props) => {
+    const { user, show, handleClose, msgAlert, triggerRefresh, pet } = props
+    // we're bringing in the toy from props, but only for the initial state
+    // by using the original toy as our initial state for a NEW piece of state, specific to this component (called toy), we'll be able to modify the toy we are updating without affecting the original state in the parent component
+    const [toy, setToy] = useState(props.toy)
 
     const onChange = (e) => {
         e.persist()
@@ -37,34 +34,31 @@ const NewToyModal = (props) => {
             }
         })
     }
-    
+
     const onSubmit = (e) => {
         e.preventDefault()
-
-        // make our api call
-        createToy(pet, toy)
-            // then close the modal
+        // make the API call
+        updateToy(user, pet, toy)
+            // close the modal
             .then(() => handleClose())
-            // notify our user that it was a success
+            // message the user
             .then(() => {
                 msgAlert({
                     heading: 'Oh Yeah!',
-                    message: messages.createToySuccess,
+                    message: messages.updateToySuccess,
                     variant: 'success'
                 })
             })
-            // refresh the parent page(component)
+            // trigger a refresh
             .then(() => triggerRefresh())
-            .then(() => setToy({}))
-            // if error, tell the user
-            .catch(err => {
+            // send error message if applicable
+            .catch(() => {
                 msgAlert({
                     heading: 'Oh no!',
                     message: messages.generalError,
                     variant: 'danger'
                 })
             })
-
     }
 
     return (
@@ -75,11 +69,11 @@ const NewToyModal = (props) => {
                     toy={toy}
                     handleChange={onChange}
                     handleSubmit={onSubmit}
-                    heading={`Give ${pet.name} a toy!`}
+                    heading="Update Toy"
                 />
             </Modal.Body>
         </Modal>
     )
 }
 
-export default NewToyModal
+export default EditToyModal

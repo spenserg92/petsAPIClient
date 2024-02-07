@@ -15,6 +15,7 @@ import EditPetModal from './EditPetModal'
 import ToyShow from '../toys/ToyShow'
 import NewToyModal from '../toys/NewToyModal'
 
+// sets a style object for our toy card container
 const toyCardContainerLayout = {
     display: 'flex',
     justifyContent: 'center',
@@ -73,14 +74,19 @@ const PetShow = (props) => {
             })
     }
 
-    // map over pet's toys array
+    // this is going to map over the pet's toys array, and produce cards for every toy
     let toyCards
-    if(pet) {
-        if(pet.toys.length > 0){
+    // if we have a pet, and if their toys array length > 0, make cards, otherwise dont
+    if (pet) {
+        if (pet.toys.length > 0) {
             toyCards = pet.toys.map(toy => (
                 <ToyShow 
                     key={toy.id}
                     toy={toy}
+                    pet={pet}
+                    user={user}
+                    msgAlert={msgAlert}
+                    triggerRefresh={() => setUpdated(prev => !prev)}
                 />
             ))
         } else {
@@ -112,7 +118,7 @@ const PetShow = (props) => {
                     <Card.Footer>
                         <Button
                             className='m-2'
-                            variant='warning'
+                            variant='info'
                             onClick={() => setToyModalShow(true)}
                         >
                             Give {pet.name} a toy!
